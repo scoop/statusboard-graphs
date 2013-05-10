@@ -18,7 +18,8 @@ module Graphs
     end
 
     def json_path
-      File.expand_path(File.join(File.dirname(__FILE__), '../../public', filename))
+      path = config['destination_path'] || File.expand_path(File.dirname(__FILE__), '../../public')
+      File.join(path, filename)
     end
 
     def to_json
