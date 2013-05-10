@@ -2,6 +2,10 @@ zendesk:
   host: yourcompany.zendesk.com
   user: user@example.com
   pass: 12345678
+  views:
+    new: 12345
+    open: 12346
+    pending: 12347
 
 highrise:
   host: yourcompany.highrisehq.com

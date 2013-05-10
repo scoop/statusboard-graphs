@@ -4,12 +4,7 @@ module Graphs
     filename 'tickets.json'
 
     def views
-      {
-        Auftrag: 28924233,
-        Offen: 2545729,
-        Wartend: 2174754,
-        RMA: 2610915,
-      }
+      config['zendesk']['views']
     end
 
     def views_invert
