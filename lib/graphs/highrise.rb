@@ -13,12 +13,20 @@ module Graphs
 
     def result
       [].tap do |sequences|
-        ::Highrise::Deal.find(:all).group_by(&:status).each do |status, deals|
+        since = 30.days.ago.strftime('%Y%m%d%H%M%S')
+        ::Highrise::Deal.find(:all, params: { since: since}).group_by(&:status).each do |status, deals|
+          datapoints = [].tap do |datapoints|
+            deals.group_by { |d| d.updated_at.to_date }.each do |date, deals|
+              next unless date
+              datapoints << {
+                title: date.strftime('%d %b'),
+                value: deals.count
+              }
+            end
+          end
           sequences << {
             title: status,
-            datapoints: [
-              { title: status.capitalize, value: deals.collect { |d| d.price.to_i }.sum }
-            ]
+            datapoints: datapoints
           }
         end
       end
