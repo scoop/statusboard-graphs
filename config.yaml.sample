@@ -1,0 +1,8 @@
+zendesk:
+  host: yourcompany.zendesk.com
+  user: user@example.com
+  pass: 12345678
+
+highrise:
+  host: yourcompany.highrisehq.com
+  user: d41d8cd98f00b204e9800998ecf8427e
