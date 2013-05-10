@@ -6,6 +6,7 @@ zendesk:
     new: 12345
     open: 12346
     pending: 12347
+  agent_view: 12348
 
 highrise:
   host: yourcompany.highrisehq.com

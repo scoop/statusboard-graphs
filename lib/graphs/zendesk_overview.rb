@@ -1,7 +1,9 @@
+require 'faraday'
+
 module Graphs
-  class Zendesk < Base
-    title 'Tickets'
-    filename 'tickets.json'
+  class ZendeskOverview < Base
+    title 'Ticket Overview'
+    filename 'tickets-overview.json'
 
     def views
       config['zendesk']['views']

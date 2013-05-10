@@ -8,3 +8,4 @@ gem "faraday"
 gem 'highrise'
 gem 'thor'
 gem 'activesupport'
+gem 'zendesk_api'

@@ -1,3 +1,5 @@
+require 'highrise'
+
 module Graphs
   class Highrise < Base
     title 'Deals'

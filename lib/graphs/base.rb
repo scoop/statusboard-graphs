@@ -1,3 +1,6 @@
+require 'yaml'
+require 'active_support/core_ext'
+
 module Graphs
   class Base
     class_attribute :title, :filename
@@ -28,6 +31,7 @@ module Graphs
     end
 
     def to_file
+      puts '[%s] Generating %s' % [self.class.name, File.basename(json_path)]
       File.open(json_path, 'w') { |f| f.puts to_json }
     end
   end
