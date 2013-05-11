@@ -1,9 +1,12 @@
+# encoding: UTF-8
 require 'highrise'
 
 module Graphs
-  class Highrise < Base
-    title 'Deals'
+  class HighriseDeals < Base
+    title 'Deals 4 Weeks'
     filename 'deals.json'
+    totals true
+    yaxis units: { prefix: '€' }
 
     def initialize
       ::Highrise::Base.site = 'https://%s' % config['highrise']['host']
@@ -13,14 +16,14 @@ module Graphs
 
     def result
       [].tap do |sequences|
-        since = 30.days.ago.strftime('%Y%m%d%H%M%S')
-        ::Highrise::Deal.find(:all, params: { since: since}).group_by(&:status).each do |status, deals|
+        since = 28.days.ago.strftime('%Y%m%d%H%M%S')
+        ::Highrise::Deal.find(:all, params: { since: since }).group_by(&:status).each do |status, deals|
           datapoints = [].tap do |datapoints|
-            deals.group_by { |d| d.updated_at.to_date }.each do |date, deals|
+            deals.group_by { |d| d.updated_at.to_date }.sort.each do |date, deals|
               next unless date
               datapoints << {
                 title: date.strftime('%d %b'),
-                value: deals.count
+                value: deals.collect { |d| d.price.to_i }.sum
               }
             end
           end
