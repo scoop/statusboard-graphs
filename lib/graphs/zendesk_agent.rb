@@ -4,8 +4,7 @@ module Graphs
   class ZendeskAgent < Base
     title 'Open Tickets by Agent'
     filename 'tickets-agent.json'
-    totals true
-    yaxis nil
+    options totals: true
 
     def zendesk
       @zendesk ||= ZendeskAPI::Client.new do |c|

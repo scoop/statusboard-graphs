@@ -3,13 +3,13 @@ require 'active_support/core_ext'
 
 module Graphs
   class Base
-    class_attribute :title, :filename, :totals, :yaxis
+    class_attribute :title, :filename, :options
 
     def config
       @config ||= YAML.load_file('config.yaml')
     end
 
-    [:title, :filename, :totals, :yaxis].each do |m|
+    [:title, :filename, :options].each do |m|
       class_eval <<-EOM
         def self.#{m} #{m}
           self.#{m} = #{m}
@@ -27,8 +27,8 @@ module Graphs
         graph: {
           title: title,
           datasequences: result,
-          total: totals,
-          yAxis: yaxis
+          total: options[:totals],
+          yAxis: options[:yaxis]
         }
       }.to_json
     end

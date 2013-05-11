@@ -4,8 +4,7 @@ module Graphs
   class ZendeskOverview < Base
     title 'Ticket Overview'
     filename 'tickets-overview.json'
-    totals false
-    yaxis nil
+    options totals: false
 
     def views
       config['zendesk']['views']

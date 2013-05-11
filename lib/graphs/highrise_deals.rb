@@ -3,10 +3,9 @@ require 'highrise'
 
 module Graphs
   class HighriseDeals < Base
-    title 'Deals 4 Weeks'
+    title 'Deals 30 Days'
     filename 'deals.json'
-    totals true
-    yaxis units: { prefix: '€' }
+    options totals: true, yaxis: { units: { prefix: '€' } }
 
     def initialize
       ::Highrise::Base.site = 'https://%s' % config['highrise']['host']
@@ -14,21 +13,40 @@ module Graphs
       ::Highrise::Base.format = :xml
     end
 
+    def color_for_status(status)
+      case status
+      when 'lost' then 'red'
+      when 'pending' then 'yellow'
+      when 'won' then 'green'
+      end
+    end
+
     def result
       [].tap do |sequences|
-        since = 28.days.ago.strftime('%Y%m%d%H%M%S')
+        since = 30.days.ago.strftime('%Y%m%d%H%M%S')
         ::Highrise::Deal.find(:all, params: { since: since }).group_by(&:status).each do |status, deals|
+          previous_date = nil
           datapoints = [].tap do |datapoints|
             deals.group_by { |d| d.updated_at.to_date }.sort.each do |date, deals|
-              next unless date
+              # fill in the blanks
+              if previous_date && previous_date + 1.day < date
+                previous_date += 1.day
+                while previous_date < date
+                  datapoints << { title: previous_date.strftime('%d %b'), value: 0 }
+                  previous_date += 1.day
+                end
+              end
+
               datapoints << {
                 title: date.strftime('%d %b'),
                 value: deals.collect { |d| d.price.to_i }.sum
               }
+              previous_date = date
             end
           end
           sequences << {
             title: status,
+            color: color_for_status(status),
             datapoints: datapoints
           }
         end
