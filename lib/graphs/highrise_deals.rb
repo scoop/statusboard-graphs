@@ -25,9 +25,11 @@ module Graphs
       [].tap do |sequences|
         since = 30.days.ago.strftime('%Y%m%d%H%M%S')
         ::Highrise::Deal.find(:all, params: { since: since }).group_by(&:status).each do |status, deals|
+          next if status == 'pending'
           previous_date = nil
           datapoints = [].tap do |datapoints|
-            deals.group_by { |d| d.updated_at.to_date }.sort.each do |date, deals|
+            deals.group_by { |d| d.status_changed_on }.each do |date, deals|
+              next unless date and date > 30.days.ago.to_date
               # fill in the blanks
               if previous_date && previous_date + 1.day < date
                 previous_date += 1.day
