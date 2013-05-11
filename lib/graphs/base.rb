@@ -35,7 +35,8 @@ module Graphs
 
     def to_file
       puts '[%s] Generating %s' % [self.class.name, File.basename(json_path)]
-      File.open(json_path, 'w') { |f| f.puts to_json }
+      json_output = to_json
+      File.open(json_path, 'w') { |f| f.puts json_output }
     end
   end
 end
