@@ -1,28 +1,10 @@
 require 'yaml'
 require 'active_support/core_ext'
+require 'statusboard/base'
 
 module Graphs
-  class Base
-    class_attribute :title, :filename, :options
-
-    def config
-      @config ||= YAML.load_file('config.yaml')
-    end
-
-    [:title, :filename, :options].each do |m|
-      class_eval <<-EOM
-        def self.#{m} #{m}
-          self.#{m} = #{m}
-        end
-      EOM
-    end
-
-    def json_path
-      path = config['destination_path'] || File.expand_path(File.dirname(__FILE__), '../../public')
-      File.join(path, filename)
-    end
-
-    def to_json
+  class Base < Statusboard::Base
+    def to_s
       {
         graph: {
           title: title,
@@ -31,12 +13,6 @@ module Graphs
           yAxis: options[:yaxis]
         }
       }.to_json
-    end
-
-    def to_file
-      puts '[%s] Generating %s' % [self.class.name, File.basename(json_path)]
-      json_output = to_json
-      File.open(json_path, 'w') { |f| f.puts json_output }
     end
   end
 end

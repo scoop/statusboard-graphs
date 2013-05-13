@@ -36,7 +36,7 @@ module Graphs
             sequences << {
               title: title,
               datapoints: [
-                { title: title, value: element['value'] }
+                { title: title, value: element['value'].to_i }
               ]
             }
           end
