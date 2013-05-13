@@ -29,7 +29,7 @@ class Graph < Thor
   end
 end
 
-class Tables < Thor
+class Table < Thor
   desc 'all', 'Generate all available tables'
   def all
     invoke :zendesk
