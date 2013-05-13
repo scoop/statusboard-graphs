@@ -23,7 +23,6 @@ module Tables
               }
             end
         end
-        puts @agents
       end
 
       def size_bar(size)
