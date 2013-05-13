@@ -1,4 +1,5 @@
 require 'graphs/highrise/base'
 require 'graphs/highrise/deals'
+require 'graphs/highrise/deals_today'
 require 'graphs/highrise/recordings'
 require 'graphs/highrise/sales'

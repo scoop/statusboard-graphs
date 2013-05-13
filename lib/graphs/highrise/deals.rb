@@ -14,15 +14,23 @@ module Graphs
         end
       end
 
+      def timespan
+        30.days.ago
+      end
+
+      def matched_deals
+        since = timespan.strftime('%Y%m%d%H%M%S')
+        ::Highrise::Deal.find(:all, params: { since: since }).group_by(&:status)
+      end
+
       def result
         [].tap do |sequences|
-          since = 30.days.ago.strftime('%Y%m%d%H%M%S')
-          ::Highrise::Deal.find(:all, params: { since: since }).group_by(&:status).each do |status, deals|
+          matched_deals.each do |status, deals|
             next if status == 'pending'
             previous_date = nil
             datapoints = [].tap do |datapoints|
               deals.group_by { |d| d.status_changed_on }.each do |date, deals|
-                next unless date and date > 30.days.ago.to_date
+                next unless date and date >= timespan.to_date
                 # fill in the blanks
                 if previous_date && previous_date + 1.day < date
                   previous_date += 1.day

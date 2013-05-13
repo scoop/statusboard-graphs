@@ -10,10 +10,11 @@ class Graph < Thor
     invoke :zendesk
   end
 
-  method_option :only, type: :array, desc: 'Generate the specified graph data only (Options are: deals, sales, recordings)'
+  method_option :only, type: :array, desc: 'Generate the specified graph data only (Options are: deals deals-today, sales, recordings)'
   desc 'highrise', 'Generate stats for Highrise Deals'
   def highrise
     Graphs::Highrise::Deals.new.to_file if options[:only].blank? || options[:only].include?('deals')
+    Graphs::Highrise::DealsToday.new.to_file if options[:only].blank? || options[:only].include?('deals-today')
     Graphs::Highrise::Sales.new.to_file if options[:only].blank? || options[:only].include?('sales')
     Graphs::Highrise::Recordings.new.to_file if options[:only].blank? || options[:only].include?('recordings')
   end
