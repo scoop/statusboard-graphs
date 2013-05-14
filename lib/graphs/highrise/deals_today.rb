@@ -9,6 +9,11 @@ module Graphs
       def timespan
         Time.now.midnight
       end
+
+      def matched_deals
+        since = timespan.strftime('%Y%m%d%H%M%S')
+        ::Highrise::Deal.find(:all, params: { since: since, status: 'won' }).group_by(&:status)
+      end
     end
   end
 end
