@@ -22,7 +22,7 @@ module Tables
                 bar: size_bar(tickets.size)
               }
             end
-        end
+        end.sort_by { |name, values| values[:size] }.reverse
       end
 
       def size_bar(size)
