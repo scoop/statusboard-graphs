@@ -2,8 +2,12 @@ module Statusboard
   class Base
     class_attribute :title, :filename, :options
 
-    def config
+    def self.config
       @config ||= YAML.load_file('config.yaml')
+    end
+
+    def config
+      self.class.config
     end
 
     [:title, :filename, :options].each do |m|

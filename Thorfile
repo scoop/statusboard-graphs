@@ -6,12 +6,19 @@ require 'graphs/autotask'
 
 require 'tables/zendesk'
 
+
 class Graph < Thor
+  no_commands do
+    def config
+      Statusboard::Base.config
+    end
+  end
+
   desc 'all', 'Generate all available graphs'
   def all
-    invoke :highrise
-    invoke :zendesk
-    invoke :autotask
+    invoke :highrise if config['highrise']
+    invoke :zendesk if config['zendesk']
+    invoke :autotask if config['autotask']
   end
 
   method_option :only, type: :array, desc: 'Generate the specified graph data only (Options are: deals deals-today, sales, recordings)'
@@ -34,14 +41,20 @@ class Graph < Thor
   method_option :only, type: :array, desc: 'Generate the specified graph data only (Options are: overview)'
   def autotask
     Graphs::Autotask::Overview.new.to_file if options[:only].blank? || options[:only].include?('overview')
-    # Graphs::Zendesk::Agent.new.to_file if options[:only].blank? || options[:only].include?('agent')
+    # Graphs::Autotask::Agent.new.to_file if options[:only].blank? || options[:only].include?('agent')
   end
 end
 
 class Table < Thor
+  no_commands do
+    def config
+      Statusboard::Base.config
+    end
+  end
+
   desc 'all', 'Generate all available tables'
   def all
-    invoke :zendesk
+    invoke :zendesk if config['zendesk']
   end
 
   desc 'zendesk', 'Generate tables for Zendesk Tickets'

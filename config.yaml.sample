@@ -12,3 +12,10 @@ zendesk:
 highrise:
   host: yourcompany.highrisehq.com
   user: d41d8cd98f00b204e9800998ecf8427e
+
+autotask:
+  user: user@example.com
+  password: 12345678
+  wsdl: https://webservices1.autotask.net/atservices/1.5/atws.wsdl
+  status_closed: 5
+  recurring_queue: 1234
