@@ -11,3 +11,4 @@ gem 'haml'
 
 gem 'highrise'
 gem 'zendesk_api'
+gem 'autotask_api', github: 'scoop/autotask_api'

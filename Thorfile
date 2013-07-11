@@ -2,6 +2,7 @@ $:.unshift File.expand_path("../lib", __FILE__)
 
 require 'graphs/highrise'
 require 'graphs/zendesk'
+require 'graphs/autotask'
 
 require 'tables/zendesk'
 
@@ -10,6 +11,7 @@ class Graph < Thor
   def all
     invoke :highrise
     invoke :zendesk
+    invoke :autotask
   end
 
   method_option :only, type: :array, desc: 'Generate the specified graph data only (Options are: deals deals-today, sales, recordings)'
@@ -26,6 +28,13 @@ class Graph < Thor
   def zendesk
     Graphs::Zendesk::Overview.new.to_file if options[:only].blank? || options[:only].include?('overview')
     Graphs::Zendesk::Agent.new.to_file if options[:only].blank? || options[:only].include?('agent')
+  end
+
+  desc 'autotask', 'Generate stats for Autotask Tickets'
+  method_option :only, type: :array, desc: 'Generate the specified graph data only (Options are: overview)'
+  def autotask
+    Graphs::Autotask::Overview.new.to_file if options[:only].blank? || options[:only].include?('overview')
+    # Graphs::Zendesk::Agent.new.to_file if options[:only].blank? || options[:only].include?('agent')
   end
 end
 
