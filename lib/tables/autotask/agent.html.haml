@@ -1,0 +1,13 @@
+%table#tickets
+  %tr
+    %td{colspan: 3, align: 'center'}
+      Tickets Touched Today
+  - @agents.each do |name, values|
+    %tr
+      %td.ticketAssignee
+        = name
+      %td.ticketSize
+        = values[:size]
+      %td.projectsBars
+        - values[:bar].times do |i|
+          <div class='barSegment value#{i+1}'></div>

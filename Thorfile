@@ -6,6 +6,7 @@ require 'graphs/highrise'
 require 'graphs/zendesk'
 require 'graphs/autotask'
 
+require 'tables/autotask'
 require 'tables/zendesk'
 
 
@@ -63,4 +64,11 @@ class Table < Thor
   def zendesk
     ::Tables::Zendesk::Agent.new.to_file
   end
+
+  desc 'autotask', 'Generate tables for Autotask Tickets'
+  def autotask
+    ::Tables::Autotask::Agent.new.to_file
+  end
 end
+
+# vim: ft=ruby
