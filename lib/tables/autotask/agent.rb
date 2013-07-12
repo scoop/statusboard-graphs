@@ -9,7 +9,7 @@ module Tables
         AutotaskAPI::QueryXML.new do |query|
           query.entity = 'ticket'
         end.tap do |query|
-          query.add_condition 'LastActivityDate', 'isthisday',
+          query.add_condition 'LastActivityDate', 'greaterthan',
             Date.today.xmlschema
           query.add_condition 'QueueID', 'notequal',
             config['autotask']['recurring_queue']
