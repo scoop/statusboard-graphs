@@ -58,6 +58,7 @@ class Table < Thor
   desc 'all', 'Generate all available tables'
   def all
     invoke :zendesk if config['zendesk']
+    invoke :autotask if config['autotask']
   end
 
   desc 'zendesk', 'Generate tables for Zendesk Tickets'
