@@ -8,6 +8,7 @@ require 'graphs/autotask'
 
 require 'tables/autotask'
 require 'tables/zendesk'
+require 'tables/highrise'
 
 
 class Graph < Thor
@@ -59,6 +60,7 @@ class Table < Thor
   def all
     invoke :zendesk if config['zendesk']
     invoke :autotask if config['autotask']
+    invoke :highrise if config['highrise']
   end
 
   desc 'zendesk', 'Generate tables for Zendesk Tickets'
@@ -69,6 +71,11 @@ class Table < Thor
   desc 'autotask', 'Generate tables for Autotask Tickets'
   def autotask
     ::Tables::Autotask::Agent.new.to_file
+  end
+
+  desc 'highrise', 'Generate tables for Highrise Recordings'
+  def highrise
+    ::Tables::Highrise::Recordings.new.to_file
   end
 end
 
