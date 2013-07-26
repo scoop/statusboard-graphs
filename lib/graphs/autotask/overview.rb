@@ -3,7 +3,7 @@ module Graphs
     class Overview < Base
       title 'Ticket Overview'
       filename 'tickets-overview.json'
-      options totals: false
+      options totals: true
 
       def query
         AutotaskAPI::QueryXML.new do |query|
@@ -22,7 +22,13 @@ module Graphs
 
       def result
         [].tap do |sequences|
-          entities.group_by(&:status_name).each do |status, tickets|
+          entities.group_by do |e|
+            if e.status_name =~ config['autotask']['status_waiting_regex']
+              $1
+            else
+              e.status_name
+            end
+          end.each do |status, tickets|
             sequences << {
               title: status,
               datapoints: [

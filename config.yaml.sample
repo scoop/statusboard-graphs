@@ -18,4 +18,5 @@ autotask:
   password: 12345678
   wsdl: https://webservices1.autotask.net/atservices/1.5/atws.wsdl
   status_closed: 5
+  status_waiting_regex: !ruby/regexp '/^(Waiting)/'
   recurring_queue: 1234
