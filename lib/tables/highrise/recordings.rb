@@ -7,6 +7,7 @@ module Tables
         @recordings = {}.tap do |recordings|
           ::Highrise::Recording.find_all_across_pages_since(Time.now.midnight).group_by(&:author_id).each do |user_id, user_recordings|
             user_recordings.reject! { |ur| !%w( Note Email Comment ).include? ur.type.to_s }
+            next if user_recordings.size.zero?
             user = ::Highrise::User.find user_id
             recordings.update user.name.split.first => {
               size: user_recordings.size,
