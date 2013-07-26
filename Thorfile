@@ -73,9 +73,10 @@ class Table < Thor
     ::Tables::Autotask::Agent.new.to_file
   end
 
-  desc 'highrise', 'Generate tables for Highrise Recordings'
+  desc 'highrise', 'Generate tables for Highrise Recordings and Tasks'
   def highrise
     ::Tables::Highrise::Recordings.new.to_file
+    ::Tables::Highrise::Tasks.new.to_file
   end
 end
 
