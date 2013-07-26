@@ -34,7 +34,7 @@ module Tables
 
       def size_bar(size)
         case size
-        when 0..7 then size
+        when 0..15 then (size/1.5).round
         else 8
         end
       end
