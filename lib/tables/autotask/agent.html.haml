@@ -1,13 +1,15 @@
-%table#tickets
+%table#projects
   %tr
-    %td{colspan: 3, align: 'center'}
-      Tickets Touched Today
+    %td{style: 'width: 200px; color: #ddd'}
+      Tickets
+    %td
+    %td
   - @agents.each do |name, values|
     %tr
-      %td.ticketAssignee
+      %td.projectName
         = name
-      %td.ticketSize
+      %td.projectVersion
         = values[:size]
       %td.projectsBars
         - values[:bar].times do |i|
-          <div class='barSegment value#{i+1}'></div>
+          <div class="barSegment value#{i+1}"></div>

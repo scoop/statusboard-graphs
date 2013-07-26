@@ -9,7 +9,7 @@ module Tables
             user_tasks.reject! { |ut| ut.due_at && ut.due_at > Time.now.end_of_week }
             next if user_tasks.size.zero?
             user = ::Highrise::User.find user_id
-            tasks.update user.name => {
+            tasks.update user.name.split.first => {
               size: user_tasks.size,
               bar: size_bar(user_tasks.size)
             }

@@ -1,6 +1,8 @@
 require 'haml'
 require 'statusboard/base'
 
+Haml::Options.defaults[:attr_wrapper] = '"'
+
 module Tables
   class Base < Statusboard::Base
     def to_s
