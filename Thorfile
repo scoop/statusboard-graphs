@@ -44,8 +44,8 @@ class Graph < Thor
   desc 'autotask', 'Generate stats for Autotask Tickets'
   method_option :only, type: :array, desc: 'Generate the specified graph data only (Options are: overview)'
   def autotask
+    Graphs::Autotask::Opportunities.new.to_file if options[:only].blank? || options[:only].include?('opportunities')
     Graphs::Autotask::Overview.new.to_file if options[:only].blank? || options[:only].include?('overview')
-    # Graphs::Autotask::Agent.new.to_file if options[:only].blank? || options[:only].include?('agent')
   end
 end
 
