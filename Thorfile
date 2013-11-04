@@ -70,6 +70,7 @@ class Table < Thor
 
   desc 'autotask', 'Generate tables for Autotask Tickets'
   def autotask
+    ::Tables::Autotask::Todo.new.to_file
     ::Tables::Autotask::Agent.new.to_file
   end
 
