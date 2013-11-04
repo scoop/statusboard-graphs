@@ -22,7 +22,7 @@ module Graphs
 
       def result
         [].tap do |sequences|
-          entities.group_by do |e|
+          entities.group_by do |e| 
             if e.status_name =~ config['autotask']['status_waiting_regex']
               $1
             else

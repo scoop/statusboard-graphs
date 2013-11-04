@@ -7,12 +7,10 @@ module Tables
 
       def query
         AutotaskAPI::QueryXML.new do |query|
-          query.entity = 'ticket'
+          query.entity = 'timeentry'
         end.tap do |query|
-          query.add_condition 'LastActivityDate', 'greaterthan',
+          query.add_condition 'startdatetime', 'greaterthan',
             Date.today.xmlschema
-          query.add_condition 'QueueID', 'notequal',
-            config['autotask']['recurring_queue']
         end
       end
 
@@ -22,19 +20,21 @@ module Tables
 
       def fetch
         @agents = {}.tap do |agents|
-          entities.group_by(&:assigned_resource).each do |resource, tickets|
+          entities.group_by(&:resource).each do |resource, time_entries|
             next if resource.blank?
-            agents.update resource.first_name => { 
-              size: tickets.size,
-              bar: size_bar(tickets.size)
+            time_sum = time_entries.collect { |t| t.hours_worked.to_f }.
+              reduce(:+).round(1)
+            agents.update resource.first_name => {
+              size: time_sum,
+              bar: size_bar(time_sum)
             }
           end
         end.sort_by { |name, values| values[:size] }.reverse
       end
 
       def size_bar(size)
-        case size
-        when 0..15 then (size/1.5).round
+        case size.ceil
+        when 0..7 then size.ceil
         else 8
         end
       end
