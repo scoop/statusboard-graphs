@@ -5,7 +5,7 @@ require 'active_support/core_ext/date/calculations'
 module Graphs
   module Autotask
     class Opportunities < Base
-      title 'Closed Opportunities'
+      title 'Closed Opportunities This Month'
       filename 'closed-opportunities.json'
       options totals: true, yaxis: { units: { prefix: '€' } }
 
@@ -14,7 +14,7 @@ module Graphs
           query.entity = 'opportunity'
         end.tap do |query|
           query.add_condition 'closeddate', 'greaterthan',
-            30.days.ago.xmlschema
+            Date.today.beginning_of_month.xmlschema.gsub(/Z$/, '')
           query.add_condition 'status', 'equals', 3
         end
       end
