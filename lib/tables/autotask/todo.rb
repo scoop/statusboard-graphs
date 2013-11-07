@@ -12,7 +12,7 @@ module Tables
           query.entity = 'accounttodo'
         end.tap do |query|
           query.add_condition 'startdatetime', 'lessthan',
-            1.day.from_now.midnight
+            1.day.from_now.midnight.utc.xmlschema.gsub(/Z$/, '')
         end
       end
 

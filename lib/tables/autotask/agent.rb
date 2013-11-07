@@ -10,7 +10,7 @@ module Tables
           query.entity = 'timeentry'
         end.tap do |query|
           query.add_condition 'startdatetime', 'greaterthan',
-            Date.today.xmlschema
+            Time.now.utc.midnight.xmlschema.gsub(/Z$/, '')
         end
       end
 

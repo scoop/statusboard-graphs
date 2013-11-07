@@ -1,5 +1,4 @@
 require 'autotask_api'
-require 'active_support/core_ext/date/calculations'
 
 module Tables
   module Autotask
@@ -11,7 +10,9 @@ module Tables
           query.entity = 'accountnote'
         end.tap do |query|
           query.add_condition 'startdatetime', 'greaterthan',
-            Time.now.midnight
+            Time.now.utc.midnight.xmlschema.gsub(/Z$/, '')
+          # Exclude opportunity updates
+          query.add_condition 'actiontype', 'notequal', '0'
         end
       end
 

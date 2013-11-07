@@ -1,4 +1,7 @@
 require 'tables/base'
+require 'active_support/core_ext/date/conversions'
+require 'active_support/core_ext/time/conversions'
+require 'active_support/core_ext/numeric/time'
 
 module Tables
   module Autotask
