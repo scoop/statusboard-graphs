@@ -5,7 +5,7 @@ require 'active_support/core_ext/date/calculations'
 module Graphs
   module Autotask
     class Opportunities < Base
-      title 'Closed Opportunities This Month'
+      title 'Opportunity Profit This Month'
       filename 'closed-opportunities.json'
       options totals: true, yaxis: { units: { prefix: '€' } }
 
@@ -31,7 +31,7 @@ module Graphs
               datapoints: [
                 {
                   title: resource.first_name,
-                  value: opportunities.collect { |o| o.amount.to_f }.reduce(:+)
+                  value: opportunities.collect { |o| o.amount.to_f - o.cost.to_f }.reduce(:+)
                 }
               ]
             }
